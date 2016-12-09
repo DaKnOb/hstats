@@ -26,7 +26,7 @@ software will work "as-is". More specifically, your log files need to:
 
 * They need to start with the IP Address (IPv4 or IPv6) of the remote client
 * They need to contain the HTTP Protocol Version (HTTP/2, HTTP/1.1, HTTP/1)
-  followed by a `"` for the HTTP Protocol Version Feature to work.
+  for the HTTP Protocol Version Feature to work.
 * The HTTP Response Code must be stored as an integer, between two whitespaces
   (` `) and must be the element immediately following the second occurence of
   `"` in your log file line.
