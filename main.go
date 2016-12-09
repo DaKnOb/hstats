@@ -91,17 +91,29 @@ func main() {
 	}
 
 	/* Calculate Percentages */
-	H2P := 100 * float64(H2) / float64(H2+H11+H1)
-	H11P := 100 * float64(H11) / float64(H2+H11+H1)
-	H1P := 100 * float64(H1) / float64(H2+H11+H1)
+	TotalHTTPV := float64(H2 + H11 + H1)
+	TotalIPV := float64(IPv4 + IPv6)
+	TotalRS := float64(R2XX + R3XX + R4XX + R5XX)
 
-	v4P := 100 * float64(IPv4) / float64(IPv4+IPv6)
-	v6P := 100 * float64(IPv6) / float64(IPv4+IPv6)
+	var H2P, H11P, H1P, v4P, v6P, R2P, R3P, R4P, R5P float64
 
-	R2P := 100 * float64(R2XX) / float64(R2XX+R3XX+R4XX+R5XX)
-	R3P := 100 * float64(R3XX) / float64(R2XX+R3XX+R4XX+R5XX)
-	R4P := 100 * float64(R4XX) / float64(R2XX+R3XX+R4XX+R5XX)
-	R5P := 100 * float64(R5XX) / float64(R2XX+R3XX+R4XX+R5XX)
+	if TotalHTTPV != 0 {
+		H2P = 100 * float64(H2) / TotalHTTPV
+		H11P = 100 * float64(H11) / TotalHTTPV
+		H1P = 100 * float64(H1) / TotalHTTPV
+	}
+
+	if TotalIPV != 0 {
+		v4P = 100 * float64(IPv4) / TotalIPV
+		v6P = 100 * float64(IPv6) / TotalIPV
+	}
+
+	if TotalRS != 0 {
+		R2P = 100 * float64(R2XX) / TotalRS
+		R3P = 100 * float64(R3XX) / TotalRS
+		R4P = 100 * float64(R4XX) / TotalRS
+		R5P = 100 * float64(R5XX) / TotalRS
+	}
 
 	/* Check which format the output is needed to be printed */
 	orderPrint := flag.Bool("showorder", false, "Show the order in which the parse output is being printed.")
@@ -134,17 +146,23 @@ func main() {
 
 	/* Prints the statistics in a human readable format */
 	if *humanReadable == true {
-		fmt.Printf("HTTP/2   Requests: %12d -- %3.2f%%\n", H2, H2P)
-		fmt.Printf("HTTP/1.1 Requests: %12d -- %3.2f%%\n", H11, H11P)
-		fmt.Printf("HTTP/1   Requests: %12d -- %3.2f%%\n", H1, H1P)
-		fmt.Printf("--\n")
-		fmt.Printf("IPv4     Requests: %12d -- %3.2f%%\n", IPv4, v4P)
-		fmt.Printf("IPv6     Requests: %12d -- %3.2f%%\n", IPv6, v6P)
-		fmt.Printf("--\n")
-		fmt.Printf("HTTP 2XX Requests: %12d -- %3.2f%%\n", R2XX, R2P)
-		fmt.Printf("HTTP 3XX Requests: %12d -- %3.2f%%\n", R3XX, R3P)
-		fmt.Printf("HTTP 4XX Requests: %12d -- %3.2f%%\n", R4XX, R4P)
-		fmt.Printf("HTTP 5XX Requests: %12d -- %3.2f%%\n", R5XX, R5P)
+		if TotalHTTPV != 0 {
+			fmt.Printf("HTTP/2   Requests: %12d -- %3.2f%%\n", H2, H2P)
+			fmt.Printf("HTTP/1.1 Requests: %12d -- %3.2f%%\n", H11, H11P)
+			fmt.Printf("HTTP/1   Requests: %12d -- %3.2f%%\n", H1, H1P)
+			fmt.Printf("--\n")
+		}
+		if TotalIPV != 0 {
+			fmt.Printf("IPv4     Requests: %12d -- %3.2f%%\n", IPv4, v4P)
+			fmt.Printf("IPv6     Requests: %12d -- %3.2f%%\n", IPv6, v6P)
+			fmt.Printf("--\n")
+		}
+		if TotalRS != 0 {
+			fmt.Printf("HTTP 2XX Requests: %12d -- %3.2f%%\n", R2XX, R2P)
+			fmt.Printf("HTTP 3XX Requests: %12d -- %3.2f%%\n", R3XX, R3P)
+			fmt.Printf("HTTP 4XX Requests: %12d -- %3.2f%%\n", R4XX, R4P)
+			fmt.Printf("HTTP 5XX Requests: %12d -- %3.2f%%\n", R5XX, R5P)
+		}
 		os.Exit(0)
 	}
 
