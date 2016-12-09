@@ -50,7 +50,7 @@ func main() {
 			H2++
 		} else if strings.Contains(f, "HTTP/1.1") {
 			H11++
-		} else if strings.Contains(f, "HTTP/1\"") {
+		} else if strings.Contains(f, "HTTP/1.0") {
 			H1++
 		}
 
