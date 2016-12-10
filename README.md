@@ -58,3 +58,22 @@ sense, you can either follow the above instructions on another computer
 and then transfer the binaries to the servers, or download the correct
 binary for your architecture from the GitHub Releases feature when they
 are provided.
+
+## How do I use it?
+In order to use `hstats` you currently have to pipe to its `stdin` a
+compliant log file. Future versions may or may not support selecting
+one or more files, however the easiest way to run this is:
+
+```bash
+cat /var/log/nginx/access.log /var/log/nginx/access.log.1 [...] | hstats
+```
+
+If you want to examine older files than that, which are compressed and
+stored with the `.gz` extension, you can simply use `zcat`, the `cat`
+equivalent that first decompresses the files:
+
+```bash
+zcat /var/log/nginx/access.log.5 | hstats
+```
+
+For more information on how to use the tool, run `hstats -h`.
