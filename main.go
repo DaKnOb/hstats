@@ -11,6 +11,23 @@ import (
 
 func main() {
 
+	/* Check which format the output is needed to be printed */
+	orderPrint := flag.Bool("showorder", false, "Show the order in which the parse output is being printed.")
+	parseLines := flag.Bool("parseline", false, "Output statistics for parsing, one in each line.")
+	parseFlat := flag.Bool("parseflat", false, "Output statistics for parsing, one line, separated by spaces.")
+	humanReadable := flag.Bool("human", true, "Print the output in a human-readable format.")
+
+	/* Parse the command line flags */
+	flag.Parse()
+
+	/* Prints the order in which parseLines and parseFlat numbers are */
+	if *orderPrint == true {
+		fmt.Println("HTTP2_Requests, HTTP11_Requests, HTTP1_Requests, IPv4_Requests,")
+		fmt.Println("IPv6_Requests, HTTP2XX_Requests, HTTP3XX_Requests, HTTP4XX_Requests,")
+		fmt.Println("HTTP5XX_Requests")
+		os.Exit(0)
+	}
+
 	/* Open stdin to read logs from */
 	logInput, err := os.Open("/dev/stdin")
 
@@ -113,23 +130,6 @@ func main() {
 		R3P = 100 * float64(R3XX) / TotalRS
 		R4P = 100 * float64(R4XX) / TotalRS
 		R5P = 100 * float64(R5XX) / TotalRS
-	}
-
-	/* Check which format the output is needed to be printed */
-	orderPrint := flag.Bool("showorder", false, "Show the order in which the parse output is being printed.")
-	parseLines := flag.Bool("parseline", false, "Output statistics for parsing, one in each line.")
-	parseFlat := flag.Bool("parseflat", false, "Output statistics for parsing, one line, separated by spaces.")
-	humanReadable := flag.Bool("human", true, "Print the output in a human-readable format.")
-
-	/* Parse the command line flags */
-	flag.Parse()
-
-	/* Prints the order in which parseLines and parseFlat numbers are */
-	if *orderPrint == true {
-		fmt.Println("HTTP2_Requests, HTTP11_Requests, HTTP1_Requests, IPv4_Requests,")
-		fmt.Println("IPv6_Requests, HTTP2XX_Requests, HTTP3XX_Requests, HTTP4XX_Requests,")
-		fmt.Println("HTTP5XX_Requests")
-		os.Exit(0)
 	}
 
 	/* Prints the statistics, one per line */
