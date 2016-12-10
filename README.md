@@ -45,3 +45,16 @@ Here are some excerpts of log lines in the above two web servers:
 ```
 192.0.2.2 - - [13/Dec/1989:13:37:00 +0000] "GET / HTTP/1.1" 302 [...]
 ```
+
+## How do I install it?
+If your system is running Go (usually the `golang` package), then a
+`go get github.com/daknob/hstats` and a `go install` should suffice.
+This is recommended for systems running Go 1.6 or above since v1.3.3
+shipped with Debian is too old and may be slower or not support some
+features.
+
+If you don't want to install Go in your servers, which makes total
+sense, you can either follow the above instructions on another computer
+and then transfer the binaries to the servers, or download the correct
+binary for your architecture from the GitHub Releases feature when they
+are provided.
