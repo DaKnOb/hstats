@@ -2,7 +2,7 @@
 
 echo "[$(date)]: Starting cross-compilation..."
 
-VERSION=$(git tag | tail -n1)
+VERSION=$(git describe)
 
 echo "[$(date)]: Version: $VERSION"
 
