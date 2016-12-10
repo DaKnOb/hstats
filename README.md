@@ -77,3 +77,67 @@ zcat /var/log/nginx/access.log.5 | hstats
 ```
 
 For more information on how to use the tool, run `hstats -h`.
+
+## What should I expect from it?
+A sample output of `hstats` when run against a normal NGiNX log file
+can be found below, with several command line arguments passed to
+the program:
+
+No command line arguments:
+
+```bash
+$ cat access.log | hstats
+HTTP/2   Requests:            0 -- 0.00%
+HTTP/1.1 Requests:         1419 -- 99.86%
+HTTP/1   Requests:            2 -- 0.14%
+--
+IPv4     Requests:         1421 -- 100.00%
+IPv6     Requests:            0 -- 0.00%
+--
+HTTP 2XX Requests:          924 -- 65.02%
+HTTP 3XX Requests:            6 -- 0.42%
+HTTP 4XX Requests:          491 -- 34.55%
+HTTP 5XX Requests:            0 -- 0.00%
+```
+
+With the `-parseline` command line argument:
+
+```bash
+$ cat access.log | hstats -parseline
+0
+1419
+2
+1421
+0
+924
+6
+491
+0
+```
+
+With the `-parseflat` command line argument:
+
+```bash
+$ cat access.log | hstats -parseflat
+0 1419 2 1421 0 924 6 491 0
+```
+
+With the `-h` command line argument:
+
+```bash
+$ hstats -h
+Usage of /usr/local/bin/hstats:
+  -human=true: Print the output in a human-readable format.
+  -parseflat=false: Output statistics for parsing, one line, separated by spaces.
+  -parseline=false: Output statistics for parsing, one in each line.
+  -showorder=false: Show the order in which the parse output is being printed.
+```
+
+With the `-showorder` flag:
+
+```bash
+$ hstats -showorder
+HTTP2_Requests, HTTP11_Requests, HTTP1_Requests, IPv4_Requests,
+IPv6_Requests, HTTP2XX_Requests, HTTP3XX_Requests, HTTP4XX_Requests,
+HTTP5XX_Requests
+```
